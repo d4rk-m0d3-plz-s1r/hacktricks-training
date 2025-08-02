@@ -32,5 +32,5 @@ jobs:
       - run: aws sts get-caller-identity
         shell: bash
       
-      - run: aws s3 secretsmanager get-secret-value --secret-id flag_sts_lab_2
+      - run: aws secretsmanager get-secret-value --secret-id flag_sts_lab_2
         shell: bash
