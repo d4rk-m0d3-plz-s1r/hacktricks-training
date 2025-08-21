@@ -44,5 +44,5 @@ jobs:
           echo "Session Tags (if any):"
           echo "$RESPONSE" | jq -r '.AssumedRoleUser.Arn, .Credentials | @json'
 
-      - name: Optional: save output for later steps
+      - name: test
         run: echo "Response saved for further inspection"
