@@ -29,5 +29,7 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: "us-east-1"
  
-      - run: aws iam list-role-tags --role-name whitebox-lab-2-github-actions-role
+      - name: Show AWS identity
+        run: aws sts get-caller-identity
         shell: bash
+
