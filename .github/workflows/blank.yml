@@ -31,6 +31,3 @@ jobs:
  
       - run: aws sts get-caller-identity
         shell: bash
-      
-      - run: aws ...
-        shell: bash
