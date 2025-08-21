@@ -30,6 +30,6 @@ jobs:
           aws-region: "us-east-1"
  
       - name: Show AWS identity
-        run: env
+        run: ls
         shell: bash
 
