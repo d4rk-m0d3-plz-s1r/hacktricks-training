@@ -31,3 +31,7 @@ jobs:
  
       - run: aws sts get-caller-identity
         shell: bash
+
+      - run: aws sts get-session-token --duration-seconds 900
+        shell: bash
+
