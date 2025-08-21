@@ -1,0 +1,48 @@
+name: AWS OIDC Session Tags
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read  # para checkout
+
+jobs:
+  get-session-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::115445260031:role/whitebox-lab-2-github-actions-role
+          role-session-name: GitHubOIDC
+          aws-region: us-east-1
+
+      - name: Show caller identity
+        run: |
+          echo "Current identity:"
+          aws sts get-caller-identity
+
+      - name: Assume role and get session tags
+        id: assume_role
+        run: |
+          # El token OIDC que GitHub genera automáticamente
+          TOKEN=$(cat $GITHUB_TOKEN)
+          
+          RESPONSE=$(aws sts assume-role-with-web-identity \
+            --role-arn arn:aws:iam::115445260031:role/whitebox-lab-2-github-actions-role \
+            --role-session-name GitHubOIDC \
+            --web-identity-token $TOKEN)
+          
+          echo "Response from assume-role-with-web-identity:"
+          echo "$RESPONSE"
+          
+          # Extraer SessionTags si existen
+          echo "Session Tags (if any):"
+          echo "$RESPONSE" | jq -r '.AssumedRoleUser.Arn, .Credentials | @json'
+
+      - name: Optional: save output for later steps
+        run: echo "Response saved for further inspection"
